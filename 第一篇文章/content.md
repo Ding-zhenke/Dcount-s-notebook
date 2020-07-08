@@ -123,3 +123,7 @@ def pie_draw(num,row):
   bins[0] = sum(bin[0:loc])
   bins[1:-1] = bin[loc+1:-1]
   label = np.arange(loc-1,max(pie_1),1)
+
+
+
+  
