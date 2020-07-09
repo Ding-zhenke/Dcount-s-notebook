@@ -10,12 +10,12 @@
 
 - [Python与Word](#python与word)
   - [create by Dcount](#create-by-dcount)
-- [一、简介](#一-简介)
+- [一、简介](#一简介)
   - [1. 使用模块Python-docx](#1-使用模块python-docx)
   - [2. word文档结构](#2-word文档结构)
-- [二、提取文字](#二-提取文字)
+- [二、提取文字](#二提取文字)
   - [1. 读取文档](#1-读取文档)
-- [三、写入内容](#三-写入内容)
+- [三、写入内容](#三写入内容)
   - [1. 添加标题](#1-添加标题)
   - [2. 添加段落](#2-添加段落)
   - [3. 添加分页](#3-添加分页)
@@ -24,6 +24,10 @@
   - [6. 保存](#6-保存)
 - [四、 调整样式](#四-调整样式)
   - [1. 文字样式](#1-文字样式)
+  - [2. 段落样式](#2-段落样式)
+    - [2.1 对齐方式](#21-对齐方式)
+    - [2.2 行间距](#22-行间距)
+    - [2.3 段间距](#23-段间距)
 
 <!-- /code_chunk_output -->
 
@@ -98,11 +102,51 @@ for row in range(4):
 
 ## 1. 文字样式
 
+`run.font`里面调整
+
 ```python
 from docx import Document
 from docx.shared import Pt,RGBColor
 from docx.oxml.ns import qn
+doc = Document( '这是一个文档. docx')
+for paragraph in doc.paragraphs :
+  for run in paragraph.runs:
+      run.font.bold = True#加粗
+      run.font.italic = True#倾斜
+      run.font.underline= True#下划线
+      run.font.strike = True#删除线
+      run.font.shadow = True
+      run.font.size = Pt(20)#字体大小
+      run.font.color.rgb = RGBColor(255,255，0)#颜色
+      run.font.name='楷体'
+      r = run._element.rpr.rFonts
+      r.set(qn('w:eastAsia'),'楷体')
+doc.save(filename)
 ```
 
-`run.font`
+## 2. 段落样式
+
+### 2.1 对齐方式 
+
+`paragraph.alignment=对齐方式`，其中对齐方式是在docx.enum.text.WD_ALIGN_PARAGRAPH中选取，是枚举类型
+有以下几个：
+
+- LEFT：左
+- CENTER：居中
+- RIGHT：靠右
+- JUSTIFY：
+- DISTRIBUTE：
+- JUSTIFY_MED：
+- JUSTIFY_HI：
+- JUSTIFY_LOW
+- THAI_JUSTIFY
+
+### 2.2 行间距
+
+`paragragph.paragraph_format.line_spaceing = 2.0`:注意用浮点数就表示两倍行间距
+
+### 2.3 段间距
+
+- `paragraph.paragraph.format.space_before=Pt(12)`,表示段前12磅
+- `paragraph.paragraph.format.space_after=Pt(12)`,表示段后12磅
 
